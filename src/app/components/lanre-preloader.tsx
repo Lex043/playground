@@ -9,7 +9,12 @@ export default function LanrePreloader() {
         <section className="fixed left-0 top-0 h-full w-full overflow-hidden bg-[#05ff00]">
             <div className="mx-auto flex h-full w-full max-w-[40rem] flex-col items-center justify-center px-10 font-mono text-black md:max-w-full">
                 <motion.section className="relative">
-                    <motion.div className="relative z-20 h-[27rem] w-full">
+                    <motion.div
+                        initial={{ clipPath: "inset(0 0 100% 0)" }} // Hidden initially
+                        animate={{ clipPath: "inset(0 0 0 0)" }} // Fully revealed
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        className="relative z-20 h-[27rem] w-full overflow-hidden"
+                    >
                         <Image
                             className="h-full w-full object-cover"
                             height={200}
@@ -20,54 +25,70 @@ export default function LanrePreloader() {
                     </motion.div>
 
                     <motion.div>
-                        <motion.p className="absolute -right-20 -top-40 z-30 text-[12rem] font-bold">
+                        <motion.p
+                            initial={{
+                                opacity: 0,
+                            }}
+                            animate={{
+                                opacity: 1,
+                            }}
+                            transition={{
+                                duration: 0.5,
+                                ease: "easeOut",
+                                delay: 0.5,
+                            }}
+                            className="absolute -right-16 -top-44 z-30 text-[12rem] font-bold"
+                        >
                             99
                         </motion.p>
                     </motion.div>
 
-                    <motion.div
-                        initial={{
-                            opacity: 0,
-                            y: -100,
-                            // backgroundColor: "",
-                        }}
-                        animate={{
-                            opacity: 1,
-                            y: 0,
-                            backgroundColor: "white",
-                        }}
-                        transition={{
-                            duration: 0.75,
-                            ease: "easeOut",
-                        }}
-                        className="z-10 overflow-hidden bg-white"
-                    >
-                        <motion.h1
+                    <motion.div className="oveflow-hidden w-full">
+                        <motion.div
                             initial={{
                                 opacity: 0,
-                                y: -100,
+                                y: "-100%",
+                                backgroundColor: "green",
                             }}
                             animate={{
                                 opacity: 1,
                                 y: 0,
+                                backgroundColor: "white",
                             }}
                             transition={{
-                                duration: 1,
+                                duration: 0.5,
                                 ease: "easeOut",
-                                delay: 0.5,
                             }}
-                            className="text-center text-7xl font-bold uppercase tracking-wider"
+                            className="z-10 overflow-hidden bg-white"
                         >
-                            lanre.wtf
-                        </motion.h1>
+                            <motion.p
+                                initial={{
+                                    opacity: 0,
+                                    y: "-100%",
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                }}
+                                transition={{
+                                    duration: 1,
+                                    ease: "easeOut",
+                                    delay: 0.5,
+                                }}
+                                className="text-center text-7xl font-bold uppercase tracking-wider"
+                            >
+                                lanre.wtf
+                            </motion.p>
+                        </motion.div>
                     </motion.div>
                     <motion.div className="absolute bottom-0 right-[30rem] w-[18rem]">
                         <motion.p
-                            initial={{ opacity: 0, y: 100 }}
+                            initial={{ opacity: 0, y: "100%" }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{
                                 duration: 1,
                                 ease: "easeOut",
+                                delay: 0.5,
                             }}
                             className="mt-2 font-sans text-xl text-black"
                         >
