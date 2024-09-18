@@ -7,7 +7,7 @@ interface AnimatedCounterProps {
   from: number; // Number to start counting from
   to: number; // Number to increment to
   onFinish: () => void; // Function to run when count ends
-  onFinisDelay?: number;
+  onFinishDelay?: number;
   animationOptions?: Keyframes; // Additional animation options
   className?: string; // Additional classNames
   step?: number; // Increment step (default to 10)
@@ -17,7 +17,7 @@ const AnimatedCounter = ({
   from,
   to,
   onFinish,
-  onFinisDelay = 0,
+  onFinishDelay = 0,
   animationOptions,
   className,
   step = 10,
@@ -49,7 +49,7 @@ const AnimatedCounter = ({
       onComplete() {
         setTimeout(() => {
           onFinish();
-        }, onFinisDelay); // Adjust delay to fit your need
+        }, onFinishDelay); // Adjust delay to fit your need
       },
     });
 

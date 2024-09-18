@@ -5,33 +5,16 @@ import Image from "next/image";
 import { useState } from "react";
 import AnimatedCounter from "./AnimatedCounter";
 
-const targetNumbers = [20, 30, 40, 50, 60, 70, 80, 90, 99];
-
 export default function LanrePreloader() {
-  //   const [number, setNumber] = useState<number>(20);
   const [isFadedOut, setIsFadedOut] = useState(false);
-
-  //   useEffect(() => {
-  //     let index = 0;
-  //     const interval = setInterval(() => {
-  //       if (index < targetNumbers.length) {
-  //         setNumber(targetNumbers[index]);
-  //         index++;
-  //       } else {
-  //         clearInterval(interval);
-  //         setTimeout(() => setIsFadedOut(true), 500);
-  //       }
-  //     }, 300);
-  //     return () => clearInterval(interval);
-  //   }, []);
 
   return (
     <motion.section
       initial={{
-        clipPath: "inset(0 0 0 0)", // Start from bottom (circle size 0)
+        clipPath: "inset(0 0 0 0)",
       }}
       animate={{
-        clipPath: isFadedOut ? "inset(0 0 100% 0)" : "inset(0 0 0 0)", // Expand the circle upwards
+        clipPath: isFadedOut ? "inset(0 0 100% 0)" : "inset(0 0 0 0)",
       }}
       transition={{
         duration: 1.5,
@@ -82,7 +65,7 @@ export default function LanrePreloader() {
                 from={10}
                 to={99}
                 onFinish={() => setIsFadedOut(true)}
-                onFinisDelay={500}
+                onFinishDelay={500}
               />
             </motion.p>
           </motion.div>
