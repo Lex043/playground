@@ -34,6 +34,7 @@ export default function LanrePreloader() {
             transition={{
                 duration: 1.5,
                 ease: "easeInOut",
+                delay: isFadedOut ? 3 : 0,
             }}
             className="fixed left-0 top-0 h-full w-full overflow-hidden bg-[#05ff00]"
         >
