@@ -1,7 +1,7 @@
 "use client";
 
-import { animate, Keyframes, useIsomorphicLayoutEffect } from "framer-motion";
-import { useRef } from "react";
+import { animate, Keyframes } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 interface AnimatedCounterProps {
   from: number; // Number to start counting from
@@ -24,7 +24,7 @@ const AnimatedCounter = ({
 }: AnimatedCounterProps) => {
   const ref = useRef<HTMLSpanElement>(null);
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     const element = ref.current;
 
     if (!element) return;
@@ -54,6 +54,7 @@ const AnimatedCounter = ({
     });
 
     return () => controls.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
 
   return <span className={className} ref={ref}></span>;
