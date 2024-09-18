@@ -1,18 +1,56 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function LanrePreloader() {
+    const [number, setNumber] = useState<number>(20);
+    const [isFadedOut, setIsFadedOut] = useState(false);
+    const targetNumbers = [20, 30, 40, 50, 60, 70, 80, 90, 99];
+
+    useEffect(() => {
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index < targetNumbers.length) {
+                setNumber(targetNumbers[index]);
+                index++;
+            } else {
+                clearInterval(interval);
+                setTimeout(() => setIsFadedOut(true), 500);
+            }
+        }, 300);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <section className="fixed left-0 top-0 h-full w-full overflow-hidden bg-[#05ff00]">
+        <motion.section
+            initial={{
+                clipPath: "inset(0 0 0 0)", // Start from bottom (circle size 0)
+            }}
+            animate={{
+                clipPath: isFadedOut ? "inset(0 0 100% 0)" : "inset(0 0 0 0)", // Expand the circle upwards
+            }}
+            transition={{
+                duration: 1.5,
+                ease: "easeInOut",
+            }}
+            className="fixed left-0 top-0 h-full w-full overflow-hidden bg-[#05ff00]"
+        >
             <div className="mx-auto flex h-full w-full max-w-[40rem] flex-col items-center justify-center px-10 font-mono text-black md:max-w-full">
                 <motion.section className="relative">
                     <motion.div
-                        initial={{ clipPath: "inset(0 0 100% 0)" }} // Hidden initially
-                        animate={{ clipPath: "inset(0 0 0 0)" }} // Fully revealed
-                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        initial={{ clipPath: "inset(0 0 100% 0)" }}
+                        animate={{
+                            clipPath: isFadedOut
+                                ? "inset(0 0 100% 0)"
+                                : "inset(0 0 0 0)",
+                        }}
+                        transition={{
+                            duration: 1.5,
+                            ease: "easeOut",
+                            delay: isFadedOut ? 1.9 : 0,
+                        }}
                         className="relative z-20 h-[27rem] w-full overflow-hidden"
                     >
                         <Image
@@ -30,16 +68,16 @@ export default function LanrePreloader() {
                                 opacity: 0,
                             }}
                             animate={{
-                                opacity: 1,
+                                opacity: isFadedOut ? 0 : 1,
                             }}
                             transition={{
-                                duration: 0.5,
+                                duration: 1,
                                 ease: "easeOut",
-                                delay: 0.5,
+                                delay: isFadedOut ? 1.7 : 0.5,
                             }}
                             className="absolute -right-16 -top-44 z-30 text-[12rem] font-bold"
                         >
-                            99
+                            {number}
                         </motion.p>
                     </motion.div>
 
@@ -48,16 +86,17 @@ export default function LanrePreloader() {
                             initial={{
                                 opacity: 0,
                                 y: "-100%",
-                                backgroundColor: "green",
+                                backgroundColor: "white",
                             }}
                             animate={{
-                                opacity: 1,
-                                y: 0,
-                                backgroundColor: "white",
+                                opacity: isFadedOut ? 0 : 1,
+                                y: isFadedOut ? "-100%" : 0,
+                                backgroundColor: isFadedOut ? "white" : "",
                             }}
                             transition={{
                                 duration: 0.5,
                                 ease: "easeOut",
+                                delay: isFadedOut ? 1.5 : 0.5,
                             }}
                             className="z-10 overflow-hidden bg-white"
                         >
@@ -67,13 +106,13 @@ export default function LanrePreloader() {
                                     y: "-100%",
                                 }}
                                 animate={{
-                                    opacity: 1,
-                                    y: 0,
+                                    opacity: isFadedOut ? 0 : 1,
+                                    y: isFadedOut ? "-100%" : 0,
                                 }}
                                 transition={{
                                     duration: 1,
                                     ease: "easeOut",
-                                    delay: 0.5,
+                                    delay: isFadedOut ? 1 : 0.5,
                                 }}
                                 className="text-center text-7xl font-bold uppercase tracking-wider"
                             >
@@ -84,7 +123,10 @@ export default function LanrePreloader() {
                     <motion.div className="absolute bottom-0 right-[30rem] w-[18rem]">
                         <motion.p
                             initial={{ opacity: 0, y: "100%" }}
-                            animate={{ opacity: 1, y: 0 }}
+                            animate={{
+                                opacity: isFadedOut ? 0 : 1,
+                                y: isFadedOut ? "100%" : 0,
+                            }}
                             transition={{
                                 duration: 1,
                                 ease: "easeOut",
@@ -98,6 +140,6 @@ export default function LanrePreloader() {
                     </motion.div>
                 </motion.section>
             </div>
-        </section>
+        </motion.section>
     );
 }
