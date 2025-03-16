@@ -1,16 +1,27 @@
 "use client";
-
 import React from "react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Loader from "../../public/svg/Loader";
+import { TriangleAlert } from "lucide-react";
 
 export default function EmailVerification() {
-    const [isToggled, setIsToggled] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isToggled, setIsToggled] = useState<boolean>(false);
+    const [email, setEmail] = useState("");
+    const [isValid, setIsValid] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const isValidEmail = (email: string) => {
+        return email === "alexferanmi390@gmail.com";
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsSubmitted(true);
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsValid(isValidEmail(email));
+            setIsLoading(false);
+        }, 1000);
     };
 
     return (
@@ -40,20 +51,42 @@ export default function EmailVerification() {
                     >
                         <label className="text-xs text-gray-400">Email</label>
 
-                        <input
-                            name="email"
-                            className={`peer mt-2 w-full rounded-2xl border border-gray-300 bg-gray-100 p-2.5 text-sm text-gray-500 outline-none placeholder-shown:border-gray-300 ${
-                                isSubmitted ? "invalid:border-red-500" : ""
-                            }`}
-                            placeholder="user@example.com"
-                            required
-                            type="email"
-                        />
+                        <div className="relative">
+                            {isLoading && (
+                                <motion.span
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="absolute bottom-2.5 left-3"
+                                >
+                                    <Loader className="animate-spin" />
+                                </motion.span>
+                            )}
+                            <input
+                                name="email"
+                                className={`peer mt-2 w-full rounded-2xl border-gray-300 bg-gray-100 text-sm text-gray-500 outline-none placeholder-shown:border-gray-300 focus:border-2 focus:bg-white ${
+                                    isValid
+                                        ? "border-gray-300"
+                                        : "border-red-500"
+                                } ${isLoading ? "p-2.5 pl-10" : "p-2.5"}`}
+                                placeholder="user@example.com"
+                                required
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                                type="email"
+                            />
+                        </div>
 
-                        {isSubmitted && (
-                            <p className="mt-1 hidden text-xs text-red-500 peer-invalid:block">
-                                Please enter a valid email.
-                            </p>
+                        {!isValid && (
+                            <motion.div
+                                initial={{ y: -50, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                className="mt-4 flex items-center gap-2 rounded-2xl border border-red-500 bg-red-200 p-2.5"
+                            >
+                                <TriangleAlert stroke="#ef4444" />
+                                <p className="text-xs text-red-500">
+                                    Email could not be verified
+                                </p>
+                            </motion.div>
                         )}
                     </motion.form>
                 )}
